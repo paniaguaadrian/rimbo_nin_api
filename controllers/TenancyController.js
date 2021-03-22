@@ -34,33 +34,17 @@ const registerTenancy = async (req, res) => {
     // agency agent
     agencyName,
     agencyEmailPerson,
-    agencyContactPerson,
-    agencyPhonePerson,
     isAgentAccepted,
 
     // property apartment
-    rentalCity,
-    rentalPostalCode,
-    ownerType,
-    rentalAddress,
+    state,
 
     // Tenancy
     rentAmount,
-    rentDuration,
-    RentStartDate,
-    RentEndDate,
-    product,
+    rentStartDate,
+    rentEndDate,
+    propertyState,
     tenancyID,
-
-    // landlord
-    landlordName,
-    landlordEmail,
-    landlordPhone,
-
-    // property manager
-    PMName,
-    PMEmail,
-    PMPhone,
   } = req.body;
 
   // Create Tenant
@@ -71,38 +55,12 @@ const registerTenancy = async (req, res) => {
     randomID,
   });
 
-  // Create Landlord
-  let landlord = await Landlord.find({ landlordEmail });
-  if (landlord.length === 0) {
-    landlord = await Landlord.create({
-      landlordName,
-      landlordEmail,
-      landlordPhone,
-    });
-  } else {
-    landlord = landlord[0];
-  }
-
-  // Create PM
-  let pm = await PM.find({ PMName });
-  if (pm.length === 0) {
-    pm = await PM.create({
-      PMName,
-      PMEmail,
-      PMPhone,
-    });
-  } else {
-    pm = pm[0];
-  }
-
   // Create Agent
   let agent = await Agent.find({ agencyEmailPerson });
   if (agent.length === 0) {
     agent = await Agent.create({
       agencyName,
       agencyEmailPerson,
-      agencyContactPerson,
-      agencyPhonePerson,
       isAgentAccepted,
     });
   } else {
@@ -110,28 +68,21 @@ const registerTenancy = async (req, res) => {
   }
 
   // Create Property
-  // Buscarla por ID para que no se repita
   const property = await Property.create({
-    rentalCity,
-    rentalPostalCode,
-    ownerType,
-    rentalAddress,
+    state,
   });
 
   // Create Tenancy
   const tenancy = await Tenancy.create({
     rentAmount,
-    rentDuration,
-    RentStartDate,
-    RentEndDate,
-    product,
+    rentStartDate,
+    rentEndDate,
+    propertyState,
     tenancyID,
 
     agent: agent._id,
     property: property._id,
-    landlord: landlord._id,
     tenant: tenant._id,
-    pm: pm._id,
   });
   res.json(tenancy);
 };

@@ -4,9 +4,7 @@ const Schema = mongoose.Schema;
 const agentSchema = new Schema(
   {
     agencyName: { type: String },
-    agencyContactPerson: { type: String },
     agencyEmailPerson: { type: String },
-    agencyPhonePerson: { type: String },
     isAgentAccepted: { type: Boolean, default: false },
     documentSepa: { type: String },
   },

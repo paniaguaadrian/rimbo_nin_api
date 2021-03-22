@@ -8,7 +8,7 @@ const tenancySchema = new Schema(
     rentStartDate: { type: Date },
     rentDuration: { type: String },
     rentEndDate: { type: Date },
-    product: { type: String },
+    propertyState: { type: String },
     tenancyID: { type: String },
     pmAnex: { type: String },
 
